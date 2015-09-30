@@ -1,4 +1,9 @@
 # tools-java
+Please execute Maven build to get tools-java.jar first
+<pre>
+mvn clean package
+</pre>
+
 ## ActiveMQQueueSize
 Used to print queue size of all Queues.
 <pre>
