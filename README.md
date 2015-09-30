@@ -7,6 +7,6 @@ mvn clean package
 ## ActiveMQQueueSize
 Used to print queue size of all Queues.
 <pre>
-Usage: java java tools-java.jar shooeugenesea.toolsjava.ActiveMQQueueSize ip port
+Usage: java -cp tools-java.jar shooeugenesea.toolsjava.ActiveMQQueueSize ip port
 Ex. java -cp tools-java.jar shooeugenesea.toolsjava.ActiveMQQueueSize 127.0.0.1 6000
 </pre>  
