@@ -3,6 +3,7 @@ package shooeugenesea.toolsjava;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.management.Attribute;
 import javax.management.AttributeList;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
@@ -43,8 +44,8 @@ public class ActiveMQQueueSize {
                 if ( on.getCanonicalName().contains("Type=Queue") ) {
                     AttributeList attributes = mbsc.getAttributes(on, new String[]{"QueueSize"});
                     if ( attributes.size() == 1 ) {
-                        Long queueSize = (Long) attributes.get(0);
-                        System.out.println("Timestamp:" + sdf.format(new Date()) + ",ObjectName:" + on.getCanonicalName() + ",QueueSize:" + queueSize);                        
+                        Attribute queueSize = (Attribute) attributes.get(0);
+                        System.out.println("Timestamp:" + sdf.format(new Date()) + ",ObjectName:" + on.getCanonicalName() + ",QueueSize:" + queueSize.getValue());                        
                     }
                 }
             }            
