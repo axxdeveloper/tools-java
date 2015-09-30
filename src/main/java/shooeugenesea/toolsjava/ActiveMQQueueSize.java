@@ -18,7 +18,7 @@ import javax.management.remote.JMXServiceURL;
  * */
 public class ActiveMQQueueSize {
     
-    private static final String USAGE_MSG = "Usage: java tools-java.jar shooeugenesea.toolsjava.ActiveMQQueueSize #{ip} #{port}\n"
+    private static final String USAGE_MSG = "Usage: java tools-java.jar shooeugenesea.toolsjava.ActiveMQQueueSize #{ip} #{ActiveMQPort}\n"
                                             + "Ex. java tools-java.jar shooeugenesea.toolsjava.ActiveMQQueueSize 127.0.0.1 6000";
     private static final String LOG_TIME_PATTERN = "yyyy-MM-dd HH:mm:SSS";
     private static final SimpleDateFormat sdf = new SimpleDateFormat(LOG_TIME_PATTERN);
@@ -42,15 +42,25 @@ public class ActiveMQQueueSize {
             
             for (ObjectName on: mbsc.queryNames(null, null)) {
                 if ( on.getCanonicalName().contains("Type=Queue") ) {
-                    AttributeList attributes = mbsc.getAttributes(on, new String[]{"QueueSize"});
-                    if ( attributes.size() == 1 ) {
-                        Attribute queueSize = (Attribute) attributes.get(0);
-                        System.out.println("Timestamp:" + sdf.format(new Date()) + ",ObjectName:" + on.getCanonicalName() + ",QueueSize:" + queueSize.getValue());                        
-                    }
+                    printQueueSize(mbsc, on);
                 }
             }            
         } catch (Throwable ex) {
             throw new RuntimeException(USAGE_MSG, ex);
+        }
+    }
+    
+    private static void printQueueSize(MBeanServerConnection mbsc, ObjectName on) {
+        try {
+            if (mbsc.isRegistered(on)) {
+                AttributeList attributes = mbsc.getAttributes(on, new String[]{"QueueSize"});
+                if ( attributes.size() == 1 ) {
+                    Attribute queueSize = (Attribute) attributes.get(0);
+                    System.out.println("Timestamp:" + sdf.format(new Date()) + ",ObjectName:" + on.getCanonicalName() + ",QueueSize:" + queueSize.getValue());                        
+                }                            
+            }
+        } catch (Throwable ex) {
+            System.out.println("Error print queue size. ObjectName:" + on + ", exception:" + ex);
         }
     }
     
