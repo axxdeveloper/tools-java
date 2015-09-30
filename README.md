@@ -1,5 +1,5 @@
 # tools-java
-Please execute Maven build to get tools-java.jar first
+Please execute Maven build to get tools-java.jar from target folder first
 <pre>
 mvn clean package
 </pre>
